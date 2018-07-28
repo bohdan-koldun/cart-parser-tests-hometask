@@ -84,6 +84,23 @@ describe("CartParser - unit tests", () => {
         expect(parseredObj).toEqual({ id: expect.stringMatching(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/), name: 'Mollis consequat', price: 9, quantity: 2 });
     });
 
+
+    
+    test(`should trow 'Validation failed!' error`, () => {
+
+        parser.readFile = jest.fn(() => {
+            return `Product name,Price,Quantity`;
+        });
+
+        parser.validate = jest.fn(() => {
+            return [{}, {}, {}];
+        });
+
+        const runParser = () => { parser.parse(); };
+
+        expect(runParser).toThrow('Validation failed!');
+    });
+
 });
 
 
